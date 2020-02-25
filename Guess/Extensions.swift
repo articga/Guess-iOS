@@ -73,7 +73,7 @@ extension UIImage {
 }
 
 extension UIViewController {
-    //Usage specify frame
+    //Generate a background gradient
     func generateBGGradient() -> CAGradientLayer {
         let colorTop =  UIColor(red: 0.35, green: 0.00, blue: 0.54, alpha: 1.00).cgColor
         let colorBottom = UIColor(red: 0.20, green: 0.00, blue: 0.30, alpha: 1.00).cgColor

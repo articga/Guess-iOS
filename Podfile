@@ -7,4 +7,7 @@ target 'Guess' do
 
   # Pods for Guess
   pod 'Alamofire'
+  pod 'KeychainAccess'
+  pod 'SkyFloatingLabelTextField'
+  pod 'NVActivityIndicatorView'
 end

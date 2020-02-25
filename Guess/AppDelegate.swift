@@ -24,11 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.rootViewController = InitialLoadViewController()
         
         
-        if (isAppAlreadyLaunchedOnce()) {
+        if (!isAppAlreadyLaunchedOnce()) {
             window!.rootViewController = UINavigationController(rootViewController: MenuViewController())
         } else {
             window!.rootViewController = UINavigationController(rootViewController: MenuViewController())
-            let vc = InitialLoadViewController()
+            //let vc = InitialLoadViewController()
+            let vc = LogInVC()
             vc.modalPresentationStyle = .fullScreen
             window!.rootViewController?.present(vc, animated: true, completion: nil)
         }

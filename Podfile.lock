@@ -1,16 +1,30 @@
 PODS:
-  - Alamofire (5.0.1)
+  - Alamofire (5.0.2)
+  - KeychainAccess (4.1.0)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+  - SkyFloatingLabelTextField (3.8.0)
 
 DEPENDENCIES:
   - Alamofire
+  - KeychainAccess
+  - NVActivityIndicatorView
+  - SkyFloatingLabelTextField
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - KeychainAccess
+    - NVActivityIndicatorView
+    - SkyFloatingLabelTextField
 
 SPEC CHECKSUMS:
-  Alamofire: 41c162d645ba6a78e7fd030fcdaf6aa394ca39a0
+  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
+  KeychainAccess: 445e28864fe6d3458b41fa211bcdc39890e8bd5a
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
 
-PODFILE CHECKSUM: 72f32bd7f7927fc5457ad2c64708136bc1468305
+PODFILE CHECKSUM: e43c9de0a549457397b6fceb7d1f2d19c56dc574
 
 COCOAPODS: 1.8.4
