@@ -46,6 +46,7 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 23.0, weight: .medium)
         button.layer.cornerRadius = 6.0
+        button.addTarget(self, action: #selector(handleLoginWithEmail), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -127,6 +128,12 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
         
         controller.performRequests()
 
+    }
+    
+    @objc func handleLoginWithEmail() {
+        let vc = LogInVC()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {

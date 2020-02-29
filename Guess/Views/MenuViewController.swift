@@ -13,7 +13,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let tableViewCellID = "modeCell"
     let modeTableView = UITableView()
-    
+    var offlineQuizModes = [Quiz]()
     
     let rulerModeButton: UIButton = {
         let button = UIButton()
@@ -34,6 +34,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     let modeSegmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["Solo", "Friends"])
         segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(changeMode(sender:)), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
@@ -46,10 +47,19 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //we dont need this checkAuth()
         drawUIElements()
         setUpTableView()
         navigationItem.title = "Mode Select"
         setProfileButton()
+        
+        updateTableView(mode: .offline)
+    }
+    
+    func updateTableView(mode: QuizSession.FetchType) {
+        let quizSession = QuizSession()
+        offlineQuizModes = quizSession.fetchModes(type: mode)
+        modeTableView.reloadData()
     }
     
     func drawUIElements() {
@@ -59,6 +69,17 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         modeSegmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2.0).isActive = true
         modeSegmentControl.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 2.0).isActive = true
         modeSegmentControl.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -2.0).isActive = true
+    }
+    
+    func checkAuth() {
+        let service = NetworkService()
+        service.checkIfAuthenticated { (isAuth) in
+            if (!isAuth) {
+                let vc = InitialLoadViewController()
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
     }
     
     func setProfileButton() {
@@ -93,7 +114,22 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        if offlineQuizModes.count > 0 {
+            modeTableView.backgroundView = nil
+            return offlineQuizModes.count
+        } else {
+            //Draw BG to tableview
+            let image = UIImage(named: "empty")
+            let noDataImage = UIImageView(image: image)
+            noDataImage.contentMode = .scaleAspectFit
+            noDataImage.translatesAutoresizingMaskIntoConstraints = false
+            modeTableView.backgroundView = noDataImage
+            noDataImage.centerXAnchor.constraint(equalTo: modeTableView.centerXAnchor, constant: 0.0).isActive = true
+            noDataImage.centerYAnchor.constraint(equalTo: modeTableView.centerYAnchor, constant: 0.0).isActive = true
+            noDataImage.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+            return 0
+        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -105,32 +141,37 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.contentView.layer.masksToBounds = true
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = QuizModeVC()
+        vc.mode = offlineQuizModes[indexPath.row].mode
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! ModeTableViewCell
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        cell.modeTitleLabel.text = "Ruler"
-        cell.descriptionLabel.text = "Guess the line length"
-        cell.questionAmountLabel.text = "10 Questions"
+        cell.modeTitleLabel.text = offlineQuizModes[indexPath.row].title
+        cell.descriptionLabel.text = offlineQuizModes[indexPath.row].description
+        cell.questionAmountLabel.text = "\(offlineQuizModes[indexPath.row].questionAmount) Questions"
         return cell
     }
     
-    @objc func rulerModeClicked() {
-        let rulerModeContoller = RulerModeViewController()
-        rulerModeContoller.modalPresentationStyle = .fullScreen
-        present(rulerModeContoller, animated: true, completion: nil)
-    }
-    
     @objc func launchProfileView() {
-        print("Profile launch")
+        let vc = ProfileDetailsViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func factsModeButtonClicked() {
-        factsModeButton.setTitle(":(", for: .normal)
+    @objc func changeMode(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            updateTableView(mode: .offline)
+        case 1:
+            updateTableView(mode: .online)
+        default:
+            print("UNKNOWN SEGMENT")
+        }
     }
-    
-    
     
     
 }

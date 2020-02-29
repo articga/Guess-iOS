@@ -57,7 +57,7 @@ class LogInVC: UIViewController, NVActivityIndicatorViewable {
         textField.title = "Email address"
         textField.textColor = .white
         textField.keyboardType = .emailAddress
-        textField.text = "rene@dubrovski.eu"
+        //textField.text = "rene@dubrovski.eu"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -69,7 +69,7 @@ class LogInVC: UIViewController, NVActivityIndicatorViewable {
         textField.isSecureTextEntry = true
         textField.keyboardAppearance = .dark
         textField.textColor = .white
-        textField.text = "123qwertyA"
+        //textField.text = "123qwertyA"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -164,7 +164,9 @@ class LogInVC: UIViewController, NVActivityIndicatorViewable {
             netService.authenticateUser(email: emailTextField.text!, password: passwordTextField.text!) { (isAuth) in
                 self.stopAnimating()
                 if (isAuth) {
-                    //Push to next VC
+                    //Dismiss all vc's in stack, go back to rootvc
+                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                    //Fallback
                     self.dismiss(animated: true, completion: nil)
                 } else {
                     //Display error

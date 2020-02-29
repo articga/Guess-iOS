@@ -20,16 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
-        
-        window!.rootViewController = InitialLoadViewController()
-        
-        
-        if (!isAppAlreadyLaunchedOnce()) {
+        //let nav1 = UINavigationController()
+        //nav1.viewControllers = [MenuViewController(), ProfileDetailsViewController()]
+        //nav1.present(MenuViewController(), animated: true, completion: nil)
+
+        if (isAppAlreadyLaunchedOnce()) {
             window!.rootViewController = UINavigationController(rootViewController: MenuViewController())
+            //window?.rootViewController = nav1
         } else {
             window!.rootViewController = UINavigationController(rootViewController: MenuViewController())
-            //let vc = InitialLoadViewController()
-            let vc = LogInVC()
+            let vc = InitialLoadViewController()
             vc.modalPresentationStyle = .fullScreen
             window!.rootViewController?.present(vc, animated: true, completion: nil)
         }

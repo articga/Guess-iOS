@@ -112,6 +112,22 @@ class RulerModeLineGenerator: UIView {
         return Double(acc).rounded(toPlaces: 2)
     }
     
+    func getDisplayScore(guess: Double) -> Int {
+        //More closer acc to zero the more accurate was the guess
+        let acc = abs(getResults(guess: guess))
+        if (acc < 5) {
+            return 1000
+        } else if (acc < 10) {
+            return 800
+        } else if (acc < 30) {
+            return 100
+        } else if (acc < 100) {
+            return 10
+        } else {
+            return 1
+        }
+    }
+    
     func returnCorrectAnswer() -> Double {
         return Double(calculateLineLength(initialPoint: startPoint, endPoint: endPoint, unitInitialPoint: unitStartPoint, unitEndPoint: unitEndPoint))
     }

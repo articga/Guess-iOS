@@ -9,9 +9,17 @@
 
 import Alamofire
 
-let BASE_URL = "http://192.168.0.3:8080"
+//let BASE_URL = "http://192.168.0.3:8080"
+=let BASE_URL = "http://188.166.160.27"
 
 class NetworkService {
+    
+    struct User: Decodable {
+        var id: Int?
+        var username: String?
+        var email: String?
+        var profileImageIdentifier: String?
+    }
         
     //Authenticate user with the server
     func authenticateUser(email: String, password: String, completion: @escaping (Bool) -> ()) {
@@ -37,6 +45,40 @@ class NetworkService {
             case .failure(_):
                 completion(false)
                 break
+            }
+        }
+    }
+    
+    //User object, success?
+    func fetchLoggedInUser(completion: @escaping (User, Bool) -> ()) {
+        AF.request("\(BASE_URL)/auth/me").validate().responseJSON { (response) in
+            debugPrint(response)
+            switch response.result {
+            case .success:
+                if let jsonData = response.data {
+                    let jsonDecoder = JSONDecoder()
+                    do {
+                        let user = try jsonDecoder.decode(User.self, from: jsonData)
+                        print("Done!")
+                        completion(user, true)
+                    } catch let err {
+                        print(err)
+                        completion(User(id: -1, username: "", email: "", profileImageIdentifier: ""), false)
+                    }
+                }
+            case .failure:
+                completion(User(id: -1, username: "", email: "", profileImageIdentifier: ""), false)
+            }
+        }
+    }
+    
+    func logOut(completion: @escaping (Bool) -> ()) {
+        AF.request("\(BASE_URL)/auth/logout").validate().responseJSON { (response) in
+            switch response.result {
+            case .success:
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }
