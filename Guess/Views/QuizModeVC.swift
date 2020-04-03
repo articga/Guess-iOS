@@ -9,13 +9,17 @@
 
 import UIKit
 import CoreHaptics
+import CoreData
+import NVActivityIndicatorView
 
 enum GuessModes {
     case Ruler
     case Random
 }
 
-class QuizModeVC: UIViewController {
+class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
+    
+    var context: NSManagedObjectContext!
     
     var mode: QuizSession.QuizMode = .unspecified
     var countdownTimer: Timer!
@@ -74,7 +78,7 @@ class QuizModeVC: UIViewController {
     let lineUIView: RulerModeLineGenerator = {
         let view = RulerModeLineGenerator()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .gray
+        view.backgroundColor = .white
         return view
     }()
     
@@ -101,8 +105,12 @@ class QuizModeVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         startTimer()
+        openDatabse()
         if (mode == .ruler) {
             drawUIElementsForRuler()
+        } else if (mode == .ruler_online) {
+            setUPMatchMaking()
+            //drawUIElementsForRulerOnline()
         }
         self.hideKeyboardWhenTappedAround()
     }
@@ -164,11 +172,17 @@ class QuizModeVC: UIViewController {
         answerTextField.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20.0).isActive = true
         answerTextField.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20.0).isActive = true
         
-        submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15.0).isActive = true
+        submitButton.topAnchor.constraint(equalTo: answerTextField.bottomAnchor, constant: 5.0).isActive = true
         submitButton.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
         submitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
         submitButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
   
+    }
+    
+    func setUPMatchMaking() {
+        let size = CGSize(width: 50, height: 50)
+        startAnimating(size, message: "Matchmaking", type: .ballScaleMultiple)
+        SocketService.default.makeUserAvailForMatchmaking(guessMode: 0, nickname: "Doktor")
     }
     
     @objc func submitPressed() {
@@ -195,6 +209,30 @@ class QuizModeVC: UIViewController {
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+        //MARK: - Save highscore to core data
+        
+
+        
+    }
+    
+    func openDatabse() {
+        
+    }
+    
+    func fetchHighScore() {
+        print("Fetching Data..")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "LocalUserData")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                let userName = data.value(forKey: "username") as! String
+                let age = data.value(forKey: "age") as! String
+                print("User Name is : "+userName+" and Age is : "+age)
+            }
+        } catch {
+            print("Fetching data Failed")
+        }
     }
 
 }

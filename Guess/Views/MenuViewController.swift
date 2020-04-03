@@ -8,12 +8,13 @@
 
 import UIKit
 import Alamofire
+import SocketIO
 
 class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let tableViewCellID = "modeCell"
     let modeTableView = UITableView()
-    var offlineQuizModes = [Quiz]()
+    var tableViewData = [Quiz]()
     
     let rulerModeButton: UIButton = {
         let button = UIButton()
@@ -32,7 +33,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }()
     
     let modeSegmentControl: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["Solo", "Friends"])
+        let segment = UISegmentedControl(items: ["Solo", "Matchmaking"])
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(changeMode(sender:)), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +51,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         //we dont need this checkAuth()
         drawUIElements()
         setUpTableView()
+        
         navigationItem.title = "Mode Select"
         setProfileButton()
         
@@ -58,7 +60,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func updateTableView(mode: QuizSession.FetchType) {
         let quizSession = QuizSession()
-        offlineQuizModes = quizSession.fetchModes(type: mode)
+        tableViewData = quizSession.fetchModes(type: mode)
         modeTableView.reloadData()
     }
     
@@ -114,9 +116,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if offlineQuizModes.count > 0 {
+        if tableViewData.count > 0 {
             modeTableView.backgroundView = nil
-            return offlineQuizModes.count
+            return tableViewData.count
         } else {
             //Draw BG to tableview
             let image = UIImage(named: "empty")
@@ -143,7 +145,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = QuizModeVC()
-        vc.mode = offlineQuizModes[indexPath.row].mode
+        vc.mode = tableViewData[indexPath.row].mode
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
@@ -151,9 +153,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! ModeTableViewCell
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        cell.modeTitleLabel.text = offlineQuizModes[indexPath.row].title
-        cell.descriptionLabel.text = offlineQuizModes[indexPath.row].description
-        cell.questionAmountLabel.text = "\(offlineQuizModes[indexPath.row].questionAmount) Questions"
+        cell.modeTitleLabel.text = tableViewData[indexPath.row].title
+        cell.descriptionLabel.text = tableViewData[indexPath.row].description
+        cell.questionAmountLabel.text = "\(tableViewData[indexPath.row].questionAmount) Questions"
         return cell
     }
     
@@ -166,8 +168,10 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         switch sender.selectedSegmentIndex {
         case 0:
             updateTableView(mode: .offline)
+            SocketService.default.closeConnection()
         case 1:
             updateTableView(mode: .online)
+            SocketService.default.establishConnection()
         default:
             print("UNKNOWN SEGMENT")
         }

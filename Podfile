@@ -10,4 +10,5 @@ target 'Guess' do
   pod 'KeychainAccess'
   pod 'SkyFloatingLabelTextField'
   pod 'NVActivityIndicatorView'
+  pod 'Socket.IO-Client-Swift'
 end

@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
-class ProfileDetailsViewController: UIViewController {
+class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable {
 
     var didRejectLogin = false
+    var pickedImage:UIImage?
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -51,15 +54,22 @@ class ProfileDetailsViewController: UIViewController {
                     vc.modalPresentationStyle = .fullScreen
                     self.present(vc, animated: true) {
                         self.didRejectLogin = true
+                        self.stopAnimating()
                     }
                 }
             }
+        } else {
+            stopAnimating()
         }
-        
+        let size = CGSize(width: 50, height: 50)
+        startAnimating(size, message: "Logging in", type: .ballScaleMultiple)
         service.fetchLoggedInUser { (user, didSuccess) in
             if (didSuccess) {
+                self.stopAnimating()
                 logOut.isEnabled = true
                 self.usernameLabel.text = user.username
+                //Download profile img
+                self.profileImageView.imageFromUrl(urlString: "\(CDN_URL)\(user.profileImageIdentifier ?? "")")
             }
         }
     }
@@ -69,6 +79,7 @@ class ProfileDetailsViewController: UIViewController {
         view.addSubview(usernameLabel)
         
         profileImageView.image = UIImage(named: "placeholder_avatar")
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector(("pickImage"))))
         
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0.0).isActive = true
         profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10.0).isActive = true
@@ -89,6 +100,42 @@ class ProfileDetailsViewController: UIViewController {
                 //Show err alert
             }
         }
+    }
+    
+    @objc func pickImage() {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+        else {
+            let alert  = UIAlertController(title: "Warning", message: "You don't have permission to access gallery.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage {
+            self.profileImageView.image = image
+            //Upload image
+            let imgData = image.jpegData(compressionQuality: 0.5)!
+            let service = NetworkService()
+            service.uploadProfileImage(image: imgData) { (didUpload, serverMessage)  in
+                if (didUpload) {
+                    print(serverMessage)
+                } else {
+                    print(serverMessage)
+                }
+            }
+            
+        } else {
+            print("No image")
+        }
+
+        picker.dismiss(animated: true, completion: nil)
     }
     
 }

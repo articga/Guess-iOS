@@ -35,7 +35,7 @@ class RulerModeLineGenerator: UIView {
     
     func drawRandomLine(context: CGContext) {
             context.beginPath()
-            context.setStrokeColor(UIColor.red.cgColor)
+            context.setStrokeColor(UIColor.black.cgColor)
             context.setLineWidth(3)
             
             let xMax = bounds.width / 3
@@ -75,7 +75,7 @@ class RulerModeLineGenerator: UIView {
         }()
         
         context.beginPath()
-        context.setStrokeColor(UIColor.blue.cgColor)
+        context.setStrokeColor(UIColor.red.cgColor)
         context.setLineWidth(3)
         
         //Random unit generation

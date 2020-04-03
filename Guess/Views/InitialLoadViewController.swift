@@ -51,9 +51,21 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
         return button
     }()
     
+    let emailPasswordRegister: UIButton = {
+        let button = UIButton()
+        button.setTitle("Create a new account", for: .normal)
+        button.backgroundColor = UIColor(red: 0.03, green: 0.70, blue: 0.30, alpha: 1.00)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 23.0, weight: .medium)
+        button.layer.cornerRadius = 6.0
+        button.addTarget(self, action: #selector(handleRegisterWithEmail), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     let appleLogInButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: ASAuthorizationAppleIDButton.ButtonType.default, style: ASAuthorizationAppleIDButton.Style.white)
-        button.addTarget(self, action: #selector(handleLogInWithAppleID), for: .touchUpInside)
+        //button.addTarget(self, action: #selector(handleLogInWithAppleID), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -86,6 +98,7 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
         view.addSubview(bigGuessText)
         view.addSubview(smallInfoTextLabel)
         view.addSubview(emailPasswordLoginModeButton)
+        view.addSubview(emailPasswordRegister)
         view.addSubview(smallInfoBtn)
         
         smallInfoBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0.0).isActive = true
@@ -97,11 +110,17 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
         appleLogInButton.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 11.0/75.0).isActive = true
         appleLogInButton.bottomAnchor.constraint(equalTo: smallInfoBtn.topAnchor, constant: -10.0).isActive = true
         
+        emailPasswordRegister.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emailPasswordRegister.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12.0).isActive = true
+        emailPasswordRegister.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12.0).isActive = true
+        emailPasswordRegister.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 11.0/75.0).isActive = true
+        emailPasswordRegister.bottomAnchor.constraint(equalTo: appleLogInButton.topAnchor, constant: -10.0).isActive = true
+        
         emailPasswordLoginModeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emailPasswordLoginModeButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12.0).isActive = true
         emailPasswordLoginModeButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12.0).isActive = true
         emailPasswordLoginModeButton.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 11.0/75.0).isActive = true
-        emailPasswordLoginModeButton.bottomAnchor.constraint(equalTo: appleLogInButton.topAnchor, constant: -10.0).isActive = true
+        emailPasswordLoginModeButton.bottomAnchor.constraint(equalTo: emailPasswordRegister.topAnchor, constant: -10.0).isActive = true
         
         bigQuestionMarkIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         bigQuestionMarkIcon.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5.0).isActive = true
@@ -114,7 +133,7 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
     }
     
     @objc func continuWithoutSigningIn() {
-        dismiss(animated: true, completion: nil)
+        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
     }
     
     @objc func handleLogInWithAppleID() {
@@ -132,6 +151,12 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
     
     @objc func handleLoginWithEmail() {
         let vc = LogInVC()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
+    
+    @objc func handleRegisterWithEmail() {
+        let vc = RegisterVC()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }

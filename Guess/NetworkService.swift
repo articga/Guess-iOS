@@ -9,8 +9,8 @@
 
 import Alamofire
 
-//let BASE_URL = "http://192.168.0.3:8080"
-=let BASE_URL = "http://188.166.160.27"
+let CDN_URL = "https://articga.fra1.digitaloceanspaces.com/guess/profile_img/"
+var BASE_URL = "http://188.166.160.27"
 
 class NetworkService {
     
@@ -19,6 +19,10 @@ class NetworkService {
         var username: String?
         var email: String?
         var profileImageIdentifier: String?
+    }
+    
+    struct ServerMessage: Decodable {
+        var message: String?
     }
         
     //Authenticate user with the server
@@ -31,6 +35,29 @@ class NetworkService {
                 break
             case .failure(_):
                 completion(false)
+                break
+            }
+        }
+    }
+    
+    func registerNewUser(username: String, email: String, password: String, completion: @escaping (Bool, String) -> ()) {
+        AF.request("\(BASE_URL)/auth/signup", method: .post, parameters: ["username": username, "email": email, "password": password], encoder: JSONParameterEncoder.default).validate().responseJSON { (response) in
+            switch response.result {
+            case .success(_):
+                completion(true, "Success")
+                break
+            case .failure(_):
+                if let jsonData = response.data {
+                    let jsonDecoder = JSONDecoder()
+                    do {
+                        let serverMessage = try jsonDecoder.decode(ServerMessage.self, from: jsonData)
+                        print("Done!")
+                        completion(false, serverMessage.message ?? "")
+                    } catch let err {
+                        print(err)
+                        completion(false, "Failed to parse message")
+                    }
+                }
                 break
             }
         }
@@ -83,4 +110,43 @@ class NetworkService {
         }
     }
     
+    func uploadProfileImage(image: Data,completion: @escaping (Bool, String) -> ()) {
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+        ]
+        AF.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(image, withName: "upload", fileName: "profilephotoios.jpeg", mimeType: "image/jpeg")
+        }, to: "\(BASE_URL)/actions/profile/upload", headers: headers).validate().responseJSON { (response) in
+            switch response.result {
+            case .success:
+                completion(true, "Upload complete!")
+            case .failure:
+                if let jsonData = response.data {
+                    let jsonDecoder = JSONDecoder()
+                    do {
+                        let serverMessage = try jsonDecoder.decode(ServerMessage.self, from: jsonData)
+                        print("Done!")
+                        completion(true, serverMessage.message ?? "")
+                    } catch let err {
+                        print(err)
+                        completion(false, "Failed to parse message")
+                    }
+                }
+                completion(false, "")
+            }
+        }
+    }
+    
+    
+}
+
+extension Request {
+    public func debugLog() -> Self {
+        #if DEBUG
+            debugPrint("=======================================")
+            debugPrint(self)
+            debugPrint("=======================================")
+        #endif
+        return self
+    }
 }

@@ -5,12 +5,16 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
   - SkyFloatingLabelTextField (3.8.0)
+  - Socket.IO-Client-Swift (15.2.0):
+    - Starscream (~> 3.1)
+  - Starscream (3.1.1)
 
 DEPENDENCIES:
   - Alamofire
   - KeychainAccess
   - NVActivityIndicatorView
   - SkyFloatingLabelTextField
+  - Socket.IO-Client-Swift
 
 SPEC REPOS:
   trunk:
@@ -18,13 +22,17 @@ SPEC REPOS:
     - KeychainAccess
     - NVActivityIndicatorView
     - SkyFloatingLabelTextField
+    - Socket.IO-Client-Swift
+    - Starscream
 
 SPEC CHECKSUMS:
   Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
   KeychainAccess: 445e28864fe6d3458b41fa211bcdc39890e8bd5a
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
+  Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 
-PODFILE CHECKSUM: e43c9de0a549457397b6fceb7d1f2d19c56dc574
+PODFILE CHECKSUM: 0469eab9f5cb2cd30a8d22182c2d9d3db932a821
 
 COCOAPODS: 1.8.4

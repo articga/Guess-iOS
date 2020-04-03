@@ -85,3 +85,16 @@ extension UIViewController {
         return gradientLayer
     }
 }
+
+extension UIImageView {
+    public func imageFromUrl(urlString: String) {
+        if let url = NSURL(string: urlString) {
+            let request = URLRequest(url: url as URL)
+            NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { (res, data, err) in
+                if let imData = data {
+                    self.image = UIImage(data: imData)
+                }
+            }
+        }
+    }
+}

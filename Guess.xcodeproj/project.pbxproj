@@ -24,7 +24,22 @@
 		84CC4EF7240A97D900A3CD49 /* QuizSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC4EF6240A97D900A3CD49 /* QuizSession.swift */; };
 		84CC4EF9240A988600A3CD49 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC4EF8240A988600A3CD49 /* Quiz.swift */; };
 		84CC4EFB240A9EC900A3CD49 /* ProfileDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */; };
+		84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB3E24310C4800B4709F /* SocketService.swift */; };
+		84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB40243124BE00B4709F /* RegisterVC.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84CE998D2437AB7100E3D6E8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		021B54E4E4338A1D874DAC05 /* Pods_Guess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Guess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,6 +54,7 @@
 		84221F95236B88C000C06A6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84221F9B236B89D000C06A6E /* QuizModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizModeVC.swift; sourceTree = "<group>"; };
 		84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerModeLineGenerator.swift; sourceTree = "<group>"; };
+		84615E31242118FD00279F35 /* K2.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = K2.gpx; sourceTree = "<group>"; };
 		84931C83240ACDD20059C571 /* Ruler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ruler.swift; sourceTree = "<group>"; };
 		84989ED624041AB4004C815B /* ModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeTableViewCell.swift; sourceTree = "<group>"; };
 		84989ED8240598D6004C815B /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
@@ -48,6 +64,8 @@
 		84CC4EF6240A97D900A3CD49 /* QuizSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSession.swift; sourceTree = "<group>"; };
 		84CC4EF8240A988600A3CD49 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsViewController.swift; sourceTree = "<group>"; };
+		84EFFB3E24310C4800B4709F /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
+		84EFFB40243124BE00B4709F /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		D15BD51FFBE6E659A9822D2F /* Pods-Guess.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guess.release.xcconfig"; path = "Target Support Files/Pods-Guess/Pods-Guess.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,15 +114,17 @@
 				8402505A23EDAB25001B61B7 /* Guess.entitlements */,
 				84221F84236B88BE00C06A6E /* AppDelegate.swift */,
 				84515F072403F45F00B9B041 /* Views */,
-				84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */,
+				84CE99792437A92A00E3D6E8 /* Helper Views */,
+				84CE997A2437A94E00E3D6E8 /* Logic Classes */,
+				84CE997B2437A95F00E3D6E8 /* Models */,
 				84221F90236B88C000C06A6E /* Assets.xcassets */,
 				84221F92236B88C000C06A6E /* LaunchScreen.storyboard */,
 				84221F95236B88C000C06A6E /* Info.plist */,
 				84221F8D236B88BE00C06A6E /* Guess.xcdatamodeld */,
 				84CBB9FC23F3055A00BC4CB2 /* Extensions.swift */,
 				84989EDA2405A458004C815B /* NetworkService.swift */,
-				84CC4EF8240A988600A3CD49 /* Quiz.swift */,
-				84CC4EF6240A97D900A3CD49 /* QuizSession.swift */,
+				84EFFB3E24310C4800B4709F /* SocketService.swift */,
+				84615E31242118FD00279F35 /* K2.gpx */,
 				84931C83240ACDD20059C571 /* Ruler.swift */,
 			);
 			path = Guess;
@@ -115,12 +135,37 @@
 			children = (
 				84C8541F24030C2F00FCD09A /* InitialLoadViewController.swift */,
 				84989ED8240598D6004C815B /* LogInVC.swift */,
+				84EFFB40243124BE00B4709F /* RegisterVC.swift */,
 				84221F88236B88BE00C06A6E /* MenuViewController.swift */,
-				84989ED624041AB4004C815B /* ModeTableViewCell.swift */,
 				84221F9B236B89D000C06A6E /* QuizModeVC.swift */,
 				84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		84CE99792437A92A00E3D6E8 /* Helper Views */ = {
+			isa = PBXGroup;
+			children = (
+				84989ED624041AB4004C815B /* ModeTableViewCell.swift */,
+			);
+			path = "Helper Views";
+			sourceTree = "<group>";
+		};
+		84CE997A2437A94E00E3D6E8 /* Logic Classes */ = {
+			isa = PBXGroup;
+			children = (
+				84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */,
+			);
+			path = "Logic Classes";
+			sourceTree = "<group>";
+		};
+		84CE997B2437A95F00E3D6E8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				84CC4EF8240A988600A3CD49 /* Quiz.swift */,
+				84CC4EF6240A97D900A3CD49 /* QuizSession.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		864508F4F7F5A1613B502A87 /* Frameworks */ = {
@@ -143,6 +188,7 @@
 				84221F7E236B88BE00C06A6E /* Frameworks */,
 				84221F7F236B88BE00C06A6E /* Resources */,
 				AB605FEA049DE1888AA3054B /* [CP] Embed Pods Frameworks */,
+				84CE998D2437AB7100E3D6E8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -250,9 +296,11 @@
 				84CBB9FD23F3055A00BC4CB2 /* Extensions.swift in Sources */,
 				84221FA0236B8BBC00C06A6E /* RulerModeLineGenerator.swift in Sources */,
 				84C8542024030C2F00FCD09A /* InitialLoadViewController.swift in Sources */,
+				84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */,
 				84221F8F236B88BE00C06A6E /* Guess.xcdatamodeld in Sources */,
 				84221F9C236B89D000C06A6E /* QuizModeVC.swift in Sources */,
 				84221F85236B88BE00C06A6E /* AppDelegate.swift in Sources */,
+				84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */,
 				84989ED724041AB4004C815B /* ModeTableViewCell.swift in Sources */,
 				84931C84240ACDD20059C571 /* Ruler.swift in Sources */,
 				84CC4EFB240A9EC900A3CD49 /* ProfileDetailsViewController.swift in Sources */,
@@ -405,7 +453,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.dubrovski.guess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -430,7 +478,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.dubrovski.guess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
