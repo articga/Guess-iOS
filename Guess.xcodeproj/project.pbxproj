@@ -24,6 +24,8 @@
 		84CC4EF7240A97D900A3CD49 /* QuizSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC4EF6240A97D900A3CD49 /* QuizSession.swift */; };
 		84CC4EF9240A988600A3CD49 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC4EF8240A988600A3CD49 /* Quiz.swift */; };
 		84CC4EFB240A9EC900A3CD49 /* ProfileDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */; };
+		84CE998F2437B39E00E3D6E8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */; };
+		84CE99912437DC3300E3D6E8 /* SummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99902437DC3300E3D6E8 /* SummaryVC.swift */; };
 		84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB3E24310C4800B4709F /* SocketService.swift */; };
 		84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB40243124BE00B4709F /* RegisterVC.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +66,8 @@
 		84CC4EF6240A97D900A3CD49 /* QuizSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSession.swift; sourceTree = "<group>"; };
 		84CC4EF8240A988600A3CD49 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
 		84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsViewController.swift; sourceTree = "<group>"; };
+		84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		84CE99902437DC3300E3D6E8 /* SummaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryVC.swift; sourceTree = "<group>"; };
 		84EFFB3E24310C4800B4709F /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		84EFFB40243124BE00B4709F /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		D15BD51FFBE6E659A9822D2F /* Pods-Guess.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guess.release.xcconfig"; path = "Target Support Files/Pods-Guess/Pods-Guess.release.xcconfig"; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				84221F88236B88BE00C06A6E /* MenuViewController.swift */,
 				84221F9B236B89D000C06A6E /* QuizModeVC.swift */,
 				84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */,
+				84CE99902437DC3300E3D6E8 /* SummaryVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */,
+				84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */,
 			);
 			path = "Logic Classes";
 			sourceTree = "<group>";
@@ -295,6 +301,7 @@
 				84221F89236B88BE00C06A6E /* MenuViewController.swift in Sources */,
 				84CBB9FD23F3055A00BC4CB2 /* Extensions.swift in Sources */,
 				84221FA0236B8BBC00C06A6E /* RulerModeLineGenerator.swift in Sources */,
+				84CE998F2437B39E00E3D6E8 /* CoreDataManager.swift in Sources */,
 				84C8542024030C2F00FCD09A /* InitialLoadViewController.swift in Sources */,
 				84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */,
 				84221F8F236B88BE00C06A6E /* Guess.xcdatamodeld in Sources */,
@@ -307,6 +314,7 @@
 				84CC4EF9240A988600A3CD49 /* Quiz.swift in Sources */,
 				84CC4EF7240A97D900A3CD49 /* QuizSession.swift in Sources */,
 				84989ED9240598D6004C815B /* LogInVC.swift in Sources */,
+				84CE99912437DC3300E3D6E8 /* SummaryVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

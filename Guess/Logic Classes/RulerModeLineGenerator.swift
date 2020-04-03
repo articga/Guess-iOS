@@ -20,6 +20,8 @@ class RulerModeLineGenerator: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         drawViews()
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
     }
     
     
@@ -27,6 +29,7 @@ class RulerModeLineGenerator: UIView {
     
     func drawViews() {
         print("Method drawViews was called")
+        
         if let context = UIGraphicsGetCurrentContext() {
             drawRandomLine(context: context)
             drawRandomUnit(context: context)
@@ -64,13 +67,12 @@ class RulerModeLineGenerator: UIView {
     
     func drawRandomUnit(context: CGContext) {
         let unitLabel: UILabel = {
-            let label = UILabel(frame: CGRect(x: bounds.width - 140, y: bounds.height / 2 + 15, width: 100, height: 30))
-            //label.center = CGPoint(x: 0, y: 0)
-            label.text = "1 Unit"
+            let label = UILabel()
+            label.text = "Unit"
             label.adjustsFontSizeToFitWidth = true
-            label.font = UIFont(name: "Halvetica", size: 17)
-            label.textColor = .blue
-            label.textAlignment = .right
+            label.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+            label.textColor = .black
+            label.textAlignment = .center
             return label
         }()
         
@@ -79,12 +81,12 @@ class RulerModeLineGenerator: UIView {
         context.setLineWidth(3)
         
         //Random unit generation
-        let randomYConstant = CGFloat.random(in: -100...20)
+        let randomYConstant = CGFloat.random(in: 10...150)
         
-        unitStartPoint = CGPoint(x: bounds.width - 30, y: bounds.height / 2)
-        unitEndPoint = CGPoint(x: bounds.width - 30, y: bounds.height - 30 + randomYConstant)
+        unitStartPoint = CGPoint(x: bounds.width - 10, y: bounds.height - 10)
+        unitEndPoint = CGPoint(x: bounds.width - 10 - abs(randomYConstant), y: bounds.height - 10)
         
-        
+        unitLabel.frame = CGRect(x: bounds.width - 40, y: bounds.height - 34, width: 30, height: 20)
         context.move(to: unitStartPoint)
         context.addLine(to: unitEndPoint)
         
@@ -115,16 +117,23 @@ class RulerModeLineGenerator: UIView {
     func getDisplayScore(guess: Double) -> Int {
         //More closer acc to zero the more accurate was the guess
         let acc = abs(getResults(guess: guess))
+        print("%Correct: \(acc) \n User input: \(guess) \n Correct line length: \(calculateLineLength(initialPoint: startPoint, endPoint: endPoint, unitInitialPoint: unitStartPoint, unitEndPoint: unitEndPoint))")
         if (acc < 5) {
             return 1000
-        } else if (acc < 10) {
+        } else if (acc < 12) {
             return 800
-        } else if (acc < 30) {
+        } else if (acc < 50) {
+            return 250
+        } else if (acc < 70) {
             return 100
+        } else if (acc < 85) {
+            return 50
         } else if (acc < 100) {
             return 10
-        } else {
+        } else if (acc < 250) {
             return 1
+        } else {
+            return 0
         }
     }
     

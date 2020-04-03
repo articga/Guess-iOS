@@ -11,19 +11,16 @@ import UIKit
 import CoreHaptics
 import CoreData
 import NVActivityIndicatorView
-
-enum GuessModes {
-    case Ruler
-    case Random
-}
+import SkyFloatingLabelTextField
 
 class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     
     var context: NSManagedObjectContext!
     
+    //Mode, user selected
     var mode: QuizSession.QuizMode = .unspecified
     var countdownTimer: Timer!
-    var totalTime = 25
+    var totalTime = 60 //In seconds
     var questionInHand = 1 {
         didSet {
             questionStepLabel.text = "\(questionInHand)/10"
@@ -39,7 +36,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     let pointsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: "HelveticaNeue-Medium", size: 24.0)
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 28.0)
         label.text = "0 pts"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +45,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     let questionStepLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: "HelveticaNeue-Medium", size: 24.0)
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 28.0)
         label.text = "1/10"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,8 +55,8 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     let timerLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: "HelveticaNeue-Medium", size: 24.0)
-        label.text = "00:00"
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 28.0)
+        label.text = "01:00"
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -82,21 +79,25 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         return view
     }()
     
-    let answerTextField: UITextField = {
-        let textField = UITextField()
+    let answerTextField: SkyFloatingLabelTextField = {
+        let textField = SkyFloatingLabelTextField()
         textField.keyboardType = .decimalPad
-        textField.textColor = .blue
-        textField.backgroundColor = .gray
+        textField.keyboardAppearance = .dark
+        textField.placeholder = "Guess"
+        textField.title = "Guess"
+        textField.textColor = .white
+        textField.titleColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     let submitButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Continue", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        button.backgroundColor = .red
-        
+        button.setTitle("Next", for: .normal)
+        button.backgroundColor = UIColor(red: 0.03, green: 0.70, blue: 0.30, alpha: 1.00)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 23.0, weight: .medium)
+        button.layer.cornerRadius = 6.0
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -104,15 +105,17 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        startTimer()
-        openDatabse()
+        //openDatabse()
+        answerTextField.becomeFirstResponder()
+        
         if (mode == .ruler) {
             drawUIElementsForRuler()
         } else if (mode == .ruler_online) {
             setUPMatchMaking()
             //drawUIElementsForRulerOnline()
+        } else if (mode == .country) {
+            //Draw for country
         }
-        self.hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,14 +128,13 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         
         if totalTime != 0 {
             totalTime -= 1
+        } else if 1 ... 3 ~= totalTime {
+            //MARK: - Generate warning (TODO)
+            print("Called")
         } else {
-            endTimer()
+            countdownTimer.invalidate()
             quizOver()
         }
-    }
-    
-    func endTimer() {
-        countdownTimer.invalidate()
     }
 
     func timeFormatted(_ totalSeconds: Int) -> String {
@@ -140,10 +142,6 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         let minutes: Int = (totalSeconds / 60) % 60
         //     let hours: Int = totalSeconds / 3600
         return String(format: "%02d:%02d", minutes, seconds)
-    }
-    
-    func startTimer() {
-        countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
     func drawUIElementsForRuler() {
@@ -162,23 +160,26 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         scoreBoardStackView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
         scoreBoardStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
         
-        lineUIView.topAnchor.constraint(equalTo: scoreBoardStackView.bottomAnchor, constant: 30.0).isActive = true
-        lineUIView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20.0).isActive = true
-        lineUIView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20.0).isActive = true
+        lineUIView.topAnchor.constraint(equalTo: scoreBoardStackView.bottomAnchor, constant: 15.0).isActive = true
+        lineUIView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        lineUIView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
         //Keep a 16:9 on every device
         lineUIView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 9.0/16.0).isActive = true
         
-        answerTextField.topAnchor.constraint(equalTo: lineUIView.bottomAnchor, constant: 20.0).isActive = true
-        answerTextField.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20.0).isActive = true
-        answerTextField.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20.0).isActive = true
+        answerTextField.topAnchor.constraint(equalTo: lineUIView.bottomAnchor, constant: 5.0).isActive = true
+        answerTextField.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        answerTextField.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
         
-        submitButton.topAnchor.constraint(equalTo: answerTextField.bottomAnchor, constant: 5.0).isActive = true
+        submitButton.topAnchor.constraint(equalTo: answerTextField.bottomAnchor, constant: 10.0).isActive = true
         submitButton.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
         submitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
         submitButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
   
+     //Start the timer
+        countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
+    //Not implemented yet
     func setUPMatchMaking() {
         let size = CGSize(width: 50, height: 50)
         startAnimating(size, message: "Matchmaking", type: .ballScaleMultiple)
@@ -210,9 +211,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
         //MARK: - Save highscore to core data
-        
-
-        
+    
     }
     
     func openDatabse() {
