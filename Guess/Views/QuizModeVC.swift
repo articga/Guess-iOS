@@ -12,6 +12,7 @@ import CoreHaptics
 import CoreData
 import NVActivityIndicatorView
 import SkyFloatingLabelTextField
+import Haptica
 
 class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     
@@ -20,7 +21,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     //Mode, user selected
     var mode: QuizSession.QuizMode = .unspecified
     var countdownTimer: Timer!
-    var totalTime = 60 //In seconds
+    var totalTime = 5 //In seconds
     var questionInHand = 1 {
         didSet {
             questionStepLabel.text = "\(questionInHand)/10"
@@ -126,11 +127,13 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     @objc func updateTimer() {
         timerLabel.text = "\(timeFormatted(totalTime))"
         
+        //Warning haptic
+        if totalTime == 3 {
+            Haptic.play("o-o-o-o-o-o-o-o-o-o-o-o-o-o-o", delay: 0.2)
+        }
+        
         if totalTime != 0 {
             totalTime -= 1
-        } else if 1 ... 3 ~= totalTime {
-            //MARK: - Generate warning (TODO)
-            print("Called")
         } else {
             countdownTimer.invalidate()
             quizOver()

@@ -11,4 +11,5 @@ target 'Guess' do
   pod 'SkyFloatingLabelTextField'
   pod 'NVActivityIndicatorView'
   pod 'Socket.IO-Client-Swift'
+  pod 'Haptica'
 end
