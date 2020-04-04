@@ -21,7 +21,12 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     //Mode, user selected
     var mode: QuizSession.QuizMode = .unspecified
     var countdownTimer: Timer!
-    var totalTime = 5 //In seconds
+    let timePerQuestion = 10
+    var totalTime = 10 {
+        didSet {
+            timerLabel.text = "\(timeFormatted(totalTime))"
+        }
+    }
     var questionInHand = 1 {
         didSet {
             questionStepLabel.text = "\(questionInHand)/10"
@@ -57,7 +62,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 28.0)
-        label.text = "01:00"
+        label.text = "00:10"
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -105,7 +110,6 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
         //openDatabse()
         answerTextField.becomeFirstResponder()
         
@@ -125,11 +129,13 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     }
     
     @objc func updateTimer() {
-        timerLabel.text = "\(timeFormatted(totalTime))"
-        
         //Warning haptic
         if totalTime == 3 {
             Haptic.play("o-o-o-o-o-o-o-o-o-o-o-o-o-o-o", delay: 0.2)
+        }
+        
+        if totalTime <= 3 {
+            timerLabel.textColor = .red
         }
         
         if totalTime != 0 {
@@ -138,6 +144,10 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
             countdownTimer.invalidate()
             quizOver()
         }
+    }
+    
+    func setTimerForNext() {
+        totalTime = timePerQuestion
     }
 
     func timeFormatted(_ totalSeconds: Int) -> String {
@@ -178,7 +188,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         submitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
         submitButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
   
-     //Start the timer
+        //Start the timer
         countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
@@ -202,19 +212,15 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         if (questionInHand == 10) {
             return quizOver()
         }
+        setTimerForNext()
     }
     
     func quizOver() {
-        let alert = UIAlertController(title: "Results", message: "Score: \(score)", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .cancel) { (action) in
-            self.dismiss(animated: true) {
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-        //MARK: - Save highscore to core data
-    
+        countdownTimer.invalidate()
+        let vc = SummaryVC()
+        vc.score = score
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
     func openDatabse() {

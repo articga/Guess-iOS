@@ -81,7 +81,7 @@ class RulerModeLineGenerator: UIView {
         context.setLineWidth(3)
         
         //Random unit generation
-        let randomYConstant = CGFloat.random(in: 10...150)
+        let randomYConstant = CGFloat.random(in: 20...150)
         
         unitStartPoint = CGPoint(x: bounds.width - 10, y: bounds.height - 10)
         unitEndPoint = CGPoint(x: bounds.width - 10 - abs(randomYConstant), y: bounds.height - 10)
