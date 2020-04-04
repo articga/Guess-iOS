@@ -7,7 +7,7 @@
 //
 // Define modes
 
-import Foundation
+import UIKit.UIColor
 
 class QuizSession {
     enum QuizMode {
@@ -23,13 +23,32 @@ class QuizSession {
         case offline
     }
     
+    //Old for tableview
     func fetchModes(type: FetchType) -> Array<Quiz> {
         if (type == FetchType.offline){
-            return [Quiz(mode: .ruler, title: "Ruler", description: "How many red lines can you fit?", questionAmount: 10)]
+            return [Quiz(mode: .ruler, title: "Ruler", description: "How many red lines can you fit?", questionAmount: 10, imageTitle: "ruler", boxColor: UIColor(red: 0.80, green: 0.72, blue: 0.68, alpha: 1.00))]
         } else if (type == FetchType.online) {
             return [Quiz]()
         } else {
             return [Quiz]()
+        }
+    }
+    
+    //For new
+    func fetchForCollectionView(type: FetchType) -> Array<Topic> {
+        if (type == FetchType.offline) {
+            let featuredTopic = Topic()
+            featuredTopic.title = "Featured Modes"
+            
+            let all = Topic()
+            all.title = "All"
+
+            all.quizzes = [Quiz(mode: .ruler, title: "Ruler", description: "", questionAmount: 10, imageTitle: "ruler", boxColor: UIColor(red: 0.80, green: 0.72, blue: 0.68, alpha: 1.00))]
+            featuredTopic.quizzes = [Quiz(mode: .ruler, title: "Ruler", description: "", questionAmount: 10, imageTitle: "ruler", boxColor: UIColor(red: 0.80, green: 0.72, blue: 0.68, alpha: 1.00))]
+            
+            return [featuredTopic, all]
+        } else {
+            return []
         }
     }
     

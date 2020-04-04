@@ -29,10 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //nav1.present(MenuViewController(), animated: true, completion: nil)
 
         if (isAppAlreadyLaunchedOnce()) {
-            window!.rootViewController = UINavigationController(rootViewController: MenuViewController())
+            window!.rootViewController = UINavigationController(rootViewController: MenuCollectionVC())
             //window?.rootViewController = nav1
         } else {
-            window!.rootViewController = UINavigationController(rootViewController: MenuViewController())
+            window!.rootViewController = UINavigationController(rootViewController: MenuCollectionVC())
             let vc = InitialLoadViewController()
             vc.modalPresentationStyle = .fullScreen
             window!.rootViewController?.present(vc, animated: true, completion: nil)

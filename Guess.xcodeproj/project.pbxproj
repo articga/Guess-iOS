@@ -27,6 +27,8 @@
 		84CE998F2437B39E00E3D6E8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */; };
 		84CE99912437DC3300E3D6E8 /* SummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99902437DC3300E3D6E8 /* SummaryVC.swift */; };
 		84CE999524389AE600E3D6E8 /* RulerARVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999424389AE600E3D6E8 /* RulerARVC.swift */; };
+		84CE99972438A8A200E3D6E8 /* MenuCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99962438A8A200E3D6E8 /* MenuCollectionVC.swift */; };
+		84CE999B2438C56300E3D6E8 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999A2438C56300E3D6E8 /* Topic.swift */; };
 		84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB3E24310C4800B4709F /* SocketService.swift */; };
 		84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB40243124BE00B4709F /* RegisterVC.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +72,8 @@
 		84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		84CE99902437DC3300E3D6E8 /* SummaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryVC.swift; sourceTree = "<group>"; };
 		84CE999424389AE600E3D6E8 /* RulerARVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerARVC.swift; sourceTree = "<group>"; };
+		84CE99962438A8A200E3D6E8 /* MenuCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionVC.swift; sourceTree = "<group>"; };
+		84CE999A2438C56300E3D6E8 /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		84EFFB3E24310C4800B4709F /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		84EFFB40243124BE00B4709F /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		D15BD51FFBE6E659A9822D2F /* Pods-Guess.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guess.release.xcconfig"; path = "Target Support Files/Pods-Guess/Pods-Guess.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 				84989ED8240598D6004C815B /* LogInVC.swift */,
 				84EFFB40243124BE00B4709F /* RegisterVC.swift */,
 				84221F88236B88BE00C06A6E /* MenuViewController.swift */,
+				84CE99962438A8A200E3D6E8 /* MenuCollectionVC.swift */,
 				84221F9B236B89D000C06A6E /* QuizModeVC.swift */,
 				84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */,
 				84CE99902437DC3300E3D6E8 /* SummaryVC.swift */,
@@ -171,8 +176,9 @@
 		84CE997B2437A95F00E3D6E8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				84CC4EF8240A988600A3CD49 /* Quiz.swift */,
 				84CC4EF6240A97D900A3CD49 /* QuizSession.swift */,
+				84CE999A2438C56300E3D6E8 /* Topic.swift */,
+				84CC4EF8240A988600A3CD49 /* Quiz.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -311,7 +317,9 @@
 				84221F9C236B89D000C06A6E /* QuizModeVC.swift in Sources */,
 				84221F85236B88BE00C06A6E /* AppDelegate.swift in Sources */,
 				84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */,
+				84CE99972438A8A200E3D6E8 /* MenuCollectionVC.swift in Sources */,
 				84CE999524389AE600E3D6E8 /* RulerARVC.swift in Sources */,
+				84CE999B2438C56300E3D6E8 /* Topic.swift in Sources */,
 				84989ED724041AB4004C815B /* ModeTableViewCell.swift in Sources */,
 				84931C84240ACDD20059C571 /* Ruler.swift in Sources */,
 				84CC4EFB240A9EC900A3CD49 /* ProfileDetailsViewController.swift in Sources */,

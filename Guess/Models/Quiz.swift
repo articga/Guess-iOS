@@ -6,11 +6,13 @@
 //  Copyright © 2020 articga. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct Quiz {
     let mode: QuizSession.QuizMode
     let title: String
     let description: String
     let questionAmount: Int
+    let imageTitle: String
+    let boxColor: UIColor
 }
