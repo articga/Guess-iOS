@@ -29,6 +29,8 @@
 		84CE999524389AE600E3D6E8 /* RulerARVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999424389AE600E3D6E8 /* RulerARVC.swift */; };
 		84CE99972438A8A200E3D6E8 /* MenuCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99962438A8A200E3D6E8 /* MenuCollectionVC.swift */; };
 		84CE999B2438C56300E3D6E8 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999A2438C56300E3D6E8 /* Topic.swift */; };
+		84CE999D2438D16600E3D6E8 /* CountryModeGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999C2438D16600E3D6E8 /* CountryModeGeneratorView.swift */; };
+		84CE99A02438E20D00E3D6E8 /* countrydata.json in Resources */ = {isa = PBXBuildFile; fileRef = 84CE999F2438E20C00E3D6E8 /* countrydata.json */; };
 		84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB3E24310C4800B4709F /* SocketService.swift */; };
 		84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB40243124BE00B4709F /* RegisterVC.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +76,8 @@
 		84CE999424389AE600E3D6E8 /* RulerARVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerARVC.swift; sourceTree = "<group>"; };
 		84CE99962438A8A200E3D6E8 /* MenuCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionVC.swift; sourceTree = "<group>"; };
 		84CE999A2438C56300E3D6E8 /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
+		84CE999C2438D16600E3D6E8 /* CountryModeGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryModeGeneratorView.swift; sourceTree = "<group>"; };
+		84CE999F2438E20C00E3D6E8 /* countrydata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countrydata.json; sourceTree = "<group>"; };
 		84EFFB3E24310C4800B4709F /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		84EFFB40243124BE00B4709F /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		D15BD51FFBE6E659A9822D2F /* Pods-Guess.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guess.release.xcconfig"; path = "Target Support Files/Pods-Guess/Pods-Guess.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 				84CE99792437A92A00E3D6E8 /* Helper Views */,
 				84CE997A2437A94E00E3D6E8 /* Logic Classes */,
 				84CE997B2437A95F00E3D6E8 /* Models */,
+				84CE999E2438D8A200E3D6E8 /* Datasets */,
 				84221F90236B88C000C06A6E /* Assets.xcassets */,
 				84221F92236B88C000C06A6E /* LaunchScreen.storyboard */,
 				84221F95236B88C000C06A6E /* Info.plist */,
@@ -168,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */,
+				84CE999C2438D16600E3D6E8 /* CountryModeGeneratorView.swift */,
 				84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */,
 			);
 			path = "Logic Classes";
@@ -181,6 +187,14 @@
 				84CC4EF8240A988600A3CD49 /* Quiz.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		84CE999E2438D8A200E3D6E8 /* Datasets */ = {
+			isa = PBXGroup;
+			children = (
+				84CE999F2438E20C00E3D6E8 /* countrydata.json */,
+			);
+			path = Datasets;
 			sourceTree = "<group>";
 		};
 		864508F4F7F5A1613B502A87 /* Frameworks */ = {
@@ -253,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84221F94236B88C000C06A6E /* LaunchScreen.storyboard in Resources */,
+				84CE99A02438E20D00E3D6E8 /* countrydata.json in Resources */,
 				84221F91236B88C000C06A6E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +327,7 @@
 				84221FA0236B8BBC00C06A6E /* RulerModeLineGenerator.swift in Sources */,
 				84CE998F2437B39E00E3D6E8 /* CoreDataManager.swift in Sources */,
 				84C8542024030C2F00FCD09A /* InitialLoadViewController.swift in Sources */,
+				84CE999D2438D16600E3D6E8 /* CountryModeGeneratorView.swift in Sources */,
 				84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */,
 				84221F8F236B88BE00C06A6E /* Guess.xcdatamodeld in Sources */,
 				84221F9C236B89D000C06A6E /* QuizModeVC.swift in Sources */,
@@ -465,7 +481,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Guess/Guess.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KQ4BT53T6U;
 				INFOPLIST_FILE = Guess/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -473,7 +489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.dubrovski.guess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -489,7 +505,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Guess/Guess.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = KQ4BT53T6U;
 				INFOPLIST_FILE = Guess/Info.plist;
@@ -498,7 +514,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.dubrovski.guess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;

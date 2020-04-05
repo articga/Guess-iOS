@@ -14,8 +14,8 @@ import NVActivityIndicatorView
 import SkyFloatingLabelTextField
 import Haptica
 
-class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
-    
+class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGeneratorDataDelegate {
+        
     var context: NSManagedObjectContext!
     
     //Mode, user selected
@@ -35,7 +35,7 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     
     var score = 0 {
         didSet {
-            pointsLabel.text = "\(score) pts"
+            pointsLabel.text = "\(score)"
         }
     }
     
@@ -43,7 +43,8 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 28.0)
-        label.text = "0 pts"
+        label.textAlignment = .left
+        label.text = "0"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,9 +71,9 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     
     let scoreBoardStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.spacing = 1.0
+        //stackView.spacing = 1.0
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -111,15 +112,15 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         //openDatabse()
-        answerTextField.becomeFirstResponder()
         
         if (mode == .ruler) {
+            answerTextField.becomeFirstResponder()
             drawUIElementsForRuler()
         } else if (mode == .ruler_online) {
             setUPMatchMaking()
             //drawUIElementsForRulerOnline()
         } else if (mode == .country) {
-            //Draw for country
+            drawUIForCountry()
         }
     }
     
@@ -190,6 +191,148 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable {
   
         //Start the timer
         countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    lazy var mapController: CountryModeGenerator = {
+        let mC = CountryModeGenerator()
+        mC.delegate = self as CountryModeGeneratorDataDelegate
+        mC.translatesAutoresizingMaskIntoConstraints = false
+        return mC
+    }()
+    
+    let guideText: UILabel = {
+        let t = UILabel()
+        t.text = "Choose the correct area for <loading>"
+        t.textColor = .white
+        t.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
+        t.numberOfLines = 2
+        t.textAlignment = .center
+        t.translatesAutoresizingMaskIntoConstraints = false
+        return t
+    }()
+    
+    let answerButton1: UIButton = {
+        let button = UIButton()
+        button.tag = 0
+        button.setTitle("", for: .normal)
+        button.backgroundColor = UIColor(red: 0.03, green: 0.70, blue: 0.30, alpha: 1.00)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 23.0, weight: .medium)
+        button.layer.cornerRadius = 6.0
+        button.addTarget(self, action: #selector(handleSendForWorld(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let answerButton2: UIButton = {
+        let button = UIButton()
+        button.tag = 1
+        button.setTitle("", for: .normal)
+        button.backgroundColor = UIColor(red: 0.03, green: 0.70, blue: 0.30, alpha: 1.00)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 23.0, weight: .medium)
+        button.layer.cornerRadius = 6.0
+        button.addTarget(self, action: #selector(handleSendForWorld(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let answerButton3: UIButton = {
+        let button = UIButton()
+        button.tag = 2
+        button.setTitle("", for: .normal)
+        button.backgroundColor = UIColor(red: 0.03, green: 0.70, blue: 0.30, alpha: 1.00)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 23.0, weight: .medium)
+        button.layer.cornerRadius = 6.0
+        button.addTarget(self, action: #selector(handleSendForWorld(sender:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    func drawUIForCountry() {
+        mapController.initiateView(questionAmount: 10)
+        scoreBoardStackView.addArrangedSubview(pointsLabel)
+        scoreBoardStackView.addArrangedSubview(questionStepLabel)
+        scoreBoardStackView.addArrangedSubview(timerLabel)
+        view.addSubview(scoreBoardStackView)
+        
+        scoreBoardStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5.0).isActive = true
+        scoreBoardStackView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        scoreBoardStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
+        
+        view.addSubview(mapController)
+        view.addSubview(guideText)
+        view.addSubview(answerButton1)
+        view.addSubview(answerButton2)
+        view.addSubview(answerButton3)
+        
+        guideText.topAnchor.constraint(equalTo: scoreBoardStackView.bottomAnchor, constant: 10.0).isActive = true
+        guideText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        mapController.topAnchor.constraint(equalTo: guideText.bottomAnchor, constant: 10.0).isActive = true
+        mapController.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        mapController.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
+        //Keep a 16:9 on every device
+        mapController.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 9.0/16.0).isActive = true
+        
+        answerButton1.topAnchor.constraint(equalTo: mapController.bottomAnchor, constant: 10.0).isActive = true
+        answerButton1.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
+        answerButton1.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        answerButton1.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
+        
+        answerButton2.topAnchor.constraint(equalTo: answerButton1.bottomAnchor, constant: 10.0).isActive = true
+        answerButton2.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
+        answerButton2.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        answerButton2.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
+        
+        answerButton3.topAnchor.constraint(equalTo: answerButton2.bottomAnchor, constant: 10.0).isActive = true
+        answerButton3.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
+        answerButton3.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
+        answerButton3.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
+        
+        
+    }
+    
+    @objc func handleSendForWorld(sender: UIButton) {
+        mapController.chooseOption(optionID: sender.tag)
+    }
+    
+    func selectedCountry(country: CountryModeGenerator.Country) {
+        guideText.text = "Choose the correct area for \(country.name!)"
+    }
+    
+    func options(options: [Int]) {
+        answerButton1.setTitle("\(options[0]) sq/km", for: .normal)
+        answerButton2.setTitle("\(options[1]) sq/km", for: .normal)
+        answerButton3.setTitle("\(options[2]) sq/km", for: .normal)
+    }
+    
+    func indexIncremented(newIndex: Int) {
+        questionStepLabel.text = "\(newIndex)/10"
+    }
+    
+    func scoreGenerated(newScoreAmount: Int) {
+        pointsLabel.text = "\(newScoreAmount)"
+    }
+    
+    func timeValueChanged(newValue: Int) {
+        timerLabel.text = "\(timeFormatted(newValue))"
+    }
+    
+    func labelShouldBeRed(isTrue: Bool) {
+        if (isTrue) {
+            timerLabel.textColor = .red
+        } else {
+            timerLabel.textColor = .white
+        }
+    }
+    
+    func quizEnded() {
+        let vc = SummaryVC()
+        vc.score = Int(pointsLabel.text!)!
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
     //Not implemented yet

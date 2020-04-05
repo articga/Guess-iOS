@@ -74,14 +74,14 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func checkAuth() {
-        let service = NetworkService()
-        service.checkIfAuthenticated { (isAuth) in
-            if (!isAuth) {
-                let vc = InitialLoadViewController()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true, completion: nil)
-            }
-        }
+//        let service = NetworkService()
+//        service.checkIfAuthenticated { (isAuth) in
+//            if (!isAuth) {
+//                let vc = InitialLoadViewController()
+//                vc.modalPresentationStyle = .fullScreen
+//                self.present(vc, animated: true, completion: nil)
+//            }
+//        }
     }
     
     func setProfileButton() {

@@ -12,4 +12,5 @@ target 'Guess' do
   pod 'NVActivityIndicatorView'
   pod 'Socket.IO-Client-Swift'
   pod 'Haptica'
+  pod 'Mapbox-iOS-SDK'
 end

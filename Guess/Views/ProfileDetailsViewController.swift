@@ -8,6 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import KeychainAccess
 
 class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable {
 
@@ -48,8 +49,9 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         let service = NetworkService()
         
         if (!didRejectLogin) {
-            service.checkIfAuthenticated { (isAuth) in
+            service.checkIfAuthenticated(token: TOKEN) { (isAuth) in
                 if (!isAuth) {
+                    print("Not authenticated")
                     let vc = InitialLoadViewController()
                     vc.modalPresentationStyle = .fullScreen
                     self.present(vc, animated: true) {
@@ -62,8 +64,8 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
             stopAnimating()
         }
         let size = CGSize(width: 50, height: 50)
-        startAnimating(size, message: "Logging in", type: .ballScaleMultiple)
-        service.fetchLoggedInUser { (user, didSuccess) in
+        //startAnimating(size, message: "Logging in", type: .ballScaleMultiple)
+        service.fetchLoggedInUser(token: TOKEN) { (user, didSuccess) in
             if (didSuccess) {
                 self.stopAnimating()
                 logOut.isEnabled = true

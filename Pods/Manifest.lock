@@ -2,6 +2,9 @@ PODS:
   - Alamofire (5.0.2)
   - Haptica (3.0.2)
   - KeychainAccess (4.1.0)
+  - Mapbox-iOS-SDK (5.7.0):
+    - MapboxMobileEvents (= 0.10.2)
+  - MapboxMobileEvents (0.10.2)
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
@@ -14,6 +17,7 @@ DEPENDENCIES:
   - Alamofire
   - Haptica
   - KeychainAccess
+  - Mapbox-iOS-SDK
   - NVActivityIndicatorView
   - SkyFloatingLabelTextField
   - Socket.IO-Client-Swift
@@ -23,6 +27,8 @@ SPEC REPOS:
     - Alamofire
     - Haptica
     - KeychainAccess
+    - Mapbox-iOS-SDK
+    - MapboxMobileEvents
     - NVActivityIndicatorView
     - SkyFloatingLabelTextField
     - Socket.IO-Client-Swift
@@ -32,11 +38,13 @@ SPEC CHECKSUMS:
   Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
   Haptica: dc206651beeca25ab4744c633fbf0ae4d1e86baf
   KeychainAccess: 445e28864fe6d3458b41fa211bcdc39890e8bd5a
+  Mapbox-iOS-SDK: 1b7cb0e739247d20ef75f5f14aa6ce34e1f0660f
+  MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 
-PODFILE CHECKSUM: 1060d3161fd23d86fe9940f1f08ffb39146fb5eb
+PODFILE CHECKSUM: 0ee3f735af0a0186ef1ab295ce4b0d6168faebaf
 
 COCOAPODS: 1.8.4

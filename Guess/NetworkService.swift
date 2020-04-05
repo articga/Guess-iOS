@@ -8,9 +8,11 @@
 // Required methods for network requests
 
 import Alamofire
+import KeychainAccess
 
 let CDN_URL = "https://articga.fra1.digitaloceanspaces.com/guess/profile_img/"
 var BASE_URL = "http://188.166.160.27"
+var TOKEN = ""
 
 class NetworkService {
     
@@ -21,6 +23,10 @@ class NetworkService {
         var profileImageIdentifier: String?
     }
     
+    struct LoginData: Decodable {
+        var token: String?
+    }
+    
     struct ServerMessage: Decodable {
         var message: String?
     }
@@ -28,13 +34,46 @@ class NetworkService {
     //Authenticate user with the server
     func authenticateUser(email: String, password: String, completion: @escaping (Bool) -> ()) {
         AF.request("\(BASE_URL)/auth/login", method: .post, parameters: ["email": email, "password": password], encoder: JSONParameterEncoder.default).validate().responseData { (response) in
-            print(response.data)
             switch response.result {
             case .success(_):
                 completion(true)
                 break
             case .failure(_):
                 completion(false)
+                break
+            }
+        }
+    }
+    
+    //Authenticate using apple token
+    func authenticateUser(token: String, completion: @escaping (Bool, LoginData) -> ()) {
+        AF.request("\(BASE_URL)/auth/login/apple", method: .post, parameters: ["authToken": token], encoder: JSONParameterEncoder.default).validate().responseJSON { (response) in
+            switch response.result {
+            case .success(_):
+                if let jsonData = response.data {
+                    let jsonDecoder = JSONDecoder()
+                    do {
+                        let data = try jsonDecoder.decode(LoginData.self, from: jsonData)
+                        let keychain = Keychain(service: "eu.dubrosvki.guess")
+                        if let tokenG = data.token {
+                            TOKEN = tokenG
+                        }
+                        if let refTKN = response.response?.allHeaderFields["rt"] as? String {
+                            do {
+                                try keychain.set("ref_token", key: refTKN)
+                            } catch let err{
+                                print("Ref Token set error: \(err)")
+                            }
+                        }
+                        completion(true, data)
+                    } catch let err {
+                        print(err)
+                        completion(false, LoginData())
+                    }
+                }
+                break
+            case .failure(_):
+                completion(false, LoginData())
                 break
             }
         }
@@ -63,8 +102,8 @@ class NetworkService {
         }
     }
     
-    func checkIfAuthenticated(completion: @escaping (Bool) -> ()) {
-        AF.request("\(BASE_URL)/actions", method: .get).validate().responseData { (response) in
+    func checkIfAuthenticated(token: String, completion: @escaping (Bool) -> ()) {
+        AF.request("\(BASE_URL)/actions", method: .get, parameters: ["token": token], encoder: JSONParameterEncoder.default).validate().responseData { (response) in
             switch response.result {
             case .success(_):
                 completion(true)
@@ -77,8 +116,8 @@ class NetworkService {
     }
     
     //User object, success?
-    func fetchLoggedInUser(completion: @escaping (User, Bool) -> ()) {
-        AF.request("\(BASE_URL)/auth/me").validate().responseJSON { (response) in
+    func fetchLoggedInUser(token: String,completion: @escaping (User, Bool) -> ()) {
+        AF.request("\(BASE_URL)/auth/me", method: .get, parameters: ["token": token], encoder: JSONParameterEncoder.default).validate().responseJSON { (response) in
             debugPrint(response)
             switch response.result {
             case .success:

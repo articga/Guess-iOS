@@ -65,7 +65,7 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
     
     let appleLogInButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: ASAuthorizationAppleIDButton.ButtonType.default, style: ASAuthorizationAppleIDButton.Style.white)
-        //button.addTarget(self, action: #selector(handleLogInWithAppleID), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleLogInWithAppleID), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -166,19 +166,20 @@ class InitialLoadViewController: UIViewController, ASAuthorizationControllerDele
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            let userIdentifier = appleIDCredential.user
-        
-            print("User ID: \(userIdentifier)")
-            
-            //Save the UserIdentifier somewhere in your server/database
-            //Push to next viewcontroller
-            
-            break
-        default:
-            break
-            
+        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            if let data = credential.authorizationCode, let code = String(data: data, encoding: .utf8) {
+                let service = NetworkService()
+                service.authenticateUser(token: code) { (isLoggedIn, data)  in
+                    if (isLoggedIn) {
+                        print(data.token)
+                        self.dismiss(animated: true, completion: nil)
+                    } else {
+                        print("Sign in with Apple login failure")
+                    }
+                }
+            } else {
+                // Handle missing authorization code ...
+            }
         }
     }
 

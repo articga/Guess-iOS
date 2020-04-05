@@ -28,11 +28,16 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiYXJjdGljYXBwcyIsImEiOiJjazhscGtyNHUwNG44M25yeGJ4cnk5OHd2In0.OK6i4ZxHnpYApx6rUOdt1A
+</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSLocationUsageDescription</key>
+	<string>Help us improve world mode</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload profile image</string>
 	<key>UIBackgroundModes</key>
