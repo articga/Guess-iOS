@@ -14,8 +14,7 @@
 		84221F91236B88C000C06A6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84221F90236B88C000C06A6E /* Assets.xcassets */; };
 		84221F94236B88C000C06A6E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84221F92236B88C000C06A6E /* LaunchScreen.storyboard */; };
 		84221F9C236B89D000C06A6E /* QuizModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84221F9B236B89D000C06A6E /* QuizModeVC.swift */; };
-		84221FA0236B8BBC00C06A6E /* RulerModeLineGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */; };
-		84931C84240ACDD20059C571 /* Ruler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84931C83240ACDD20059C571 /* Ruler.swift */; };
+		84221FA0236B8BBC00C06A6E /* RulerModeLineGeneratorLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84221F9F236B8BBC00C06A6E /* RulerModeLineGeneratorLegacy.swift */; };
 		84989ED724041AB4004C815B /* ModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84989ED624041AB4004C815B /* ModeTableViewCell.swift */; };
 		84989ED9240598D6004C815B /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84989ED8240598D6004C815B /* LogInVC.swift */; };
 		84989EDB2405A458004C815B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84989EDA2405A458004C815B /* NetworkService.swift */; };
@@ -31,6 +30,9 @@
 		84CE999B2438C56300E3D6E8 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999A2438C56300E3D6E8 /* Topic.swift */; };
 		84CE999D2438D16600E3D6E8 /* CountryModeGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE999C2438D16600E3D6E8 /* CountryModeGeneratorView.swift */; };
 		84CE99A02438E20D00E3D6E8 /* countrydata.json in Resources */ = {isa = PBXBuildFile; fileRef = 84CE999F2438E20C00E3D6E8 /* countrydata.json */; };
+		84CE99A4243A27FA00E3D6E8 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99A3243A27FA00E3D6E8 /* SettingsVC.swift */; };
+		84CE99A6243A4CB400E3D6E8 /* PreStartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99A5243A4CB400E3D6E8 /* PreStartVC.swift */; };
+		84CE99AC243A5D9400E3D6E8 /* RuleModeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE99AB243A5D9400E3D6E8 /* RuleModeGenerator.swift */; };
 		84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB3E24310C4800B4709F /* SocketService.swift */; };
 		84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EFFB40243124BE00B4709F /* RegisterVC.swift */; };
 /* End PBXBuildFile section */
@@ -60,9 +62,8 @@
 		84221F93236B88C000C06A6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84221F95236B88C000C06A6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84221F9B236B89D000C06A6E /* QuizModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizModeVC.swift; sourceTree = "<group>"; };
-		84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerModeLineGenerator.swift; sourceTree = "<group>"; };
+		84221F9F236B8BBC00C06A6E /* RulerModeLineGeneratorLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerModeLineGeneratorLegacy.swift; sourceTree = "<group>"; };
 		84615E31242118FD00279F35 /* K2.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = K2.gpx; sourceTree = "<group>"; };
-		84931C83240ACDD20059C571 /* Ruler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ruler.swift; sourceTree = "<group>"; };
 		84989ED624041AB4004C815B /* ModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeTableViewCell.swift; sourceTree = "<group>"; };
 		84989ED8240598D6004C815B /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		84989EDA2405A458004C815B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -78,6 +79,9 @@
 		84CE999A2438C56300E3D6E8 /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		84CE999C2438D16600E3D6E8 /* CountryModeGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryModeGeneratorView.swift; sourceTree = "<group>"; };
 		84CE999F2438E20C00E3D6E8 /* countrydata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countrydata.json; sourceTree = "<group>"; };
+		84CE99A3243A27FA00E3D6E8 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		84CE99A5243A4CB400E3D6E8 /* PreStartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreStartVC.swift; sourceTree = "<group>"; };
+		84CE99AB243A5D9400E3D6E8 /* RuleModeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleModeGenerator.swift; sourceTree = "<group>"; };
 		84EFFB3E24310C4800B4709F /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		84EFFB40243124BE00B4709F /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		D15BD51FFBE6E659A9822D2F /* Pods-Guess.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Guess.release.xcconfig"; path = "Target Support Files/Pods-Guess/Pods-Guess.release.xcconfig"; sourceTree = "<group>"; };
@@ -126,21 +130,18 @@
 			isa = PBXGroup;
 			children = (
 				8402505A23EDAB25001B61B7 /* Guess.entitlements */,
+				84CBB9FC23F3055A00BC4CB2 /* Extensions.swift */,
 				84221F84236B88BE00C06A6E /* AppDelegate.swift */,
 				84515F072403F45F00B9B041 /* Views */,
 				84CE99792437A92A00E3D6E8 /* Helper Views */,
 				84CE997A2437A94E00E3D6E8 /* Logic Classes */,
-				84CE997B2437A95F00E3D6E8 /* Models */,
 				84CE999E2438D8A200E3D6E8 /* Datasets */,
+				84CE997B2437A95F00E3D6E8 /* Models */,
 				84221F90236B88C000C06A6E /* Assets.xcassets */,
 				84221F92236B88C000C06A6E /* LaunchScreen.storyboard */,
 				84221F95236B88C000C06A6E /* Info.plist */,
 				84221F8D236B88BE00C06A6E /* Guess.xcdatamodeld */,
-				84CBB9FC23F3055A00BC4CB2 /* Extensions.swift */,
-				84989EDA2405A458004C815B /* NetworkService.swift */,
-				84EFFB3E24310C4800B4709F /* SocketService.swift */,
-				84615E31242118FD00279F35 /* K2.gpx */,
-				84931C83240ACDD20059C571 /* Ruler.swift */,
+				84CE99A7243A55A100E3D6E8 /* Legacy */,
 			);
 			path = Guess;
 			sourceTree = "<group>";
@@ -148,15 +149,10 @@
 		84515F072403F45F00B9B041 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				84C8541F24030C2F00FCD09A /* InitialLoadViewController.swift */,
-				84989ED8240598D6004C815B /* LogInVC.swift */,
-				84EFFB40243124BE00B4709F /* RegisterVC.swift */,
-				84221F88236B88BE00C06A6E /* MenuViewController.swift */,
 				84CE99962438A8A200E3D6E8 /* MenuCollectionVC.swift */,
-				84221F9B236B89D000C06A6E /* QuizModeVC.swift */,
-				84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */,
-				84CE99902437DC3300E3D6E8 /* SummaryVC.swift */,
-				84CE999424389AE600E3D6E8 /* RulerARVC.swift */,
+				84CE99A8243A55CF00E3D6E8 /* Login */,
+				84CE99A9243A55E200E3D6E8 /* GuessBased */,
+				84CE99AA243A55F700E3D6E8 /* Profile */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -172,9 +168,10 @@
 		84CE997A2437A94E00E3D6E8 /* Logic Classes */ = {
 			isa = PBXGroup;
 			children = (
-				84221F9F236B8BBC00C06A6E /* RulerModeLineGenerator.swift */,
+				84CE99AB243A5D9400E3D6E8 /* RuleModeGenerator.swift */,
 				84CE999C2438D16600E3D6E8 /* CountryModeGeneratorView.swift */,
 				84CE998E2437B39E00E3D6E8 /* CoreDataManager.swift */,
+				84989EDA2405A458004C815B /* NetworkService.swift */,
 			);
 			path = "Logic Classes";
 			sourceTree = "<group>";
@@ -195,6 +192,47 @@
 				84CE999F2438E20C00E3D6E8 /* countrydata.json */,
 			);
 			path = Datasets;
+			sourceTree = "<group>";
+		};
+		84CE99A7243A55A100E3D6E8 /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				84221F9F236B8BBC00C06A6E /* RulerModeLineGeneratorLegacy.swift */,
+				84CE999424389AE600E3D6E8 /* RulerARVC.swift */,
+				84221F88236B88BE00C06A6E /* MenuViewController.swift */,
+				84EFFB3E24310C4800B4709F /* SocketService.swift */,
+				84615E31242118FD00279F35 /* K2.gpx */,
+			);
+			path = Legacy;
+			sourceTree = "<group>";
+		};
+		84CE99A8243A55CF00E3D6E8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				84C8541F24030C2F00FCD09A /* InitialLoadViewController.swift */,
+				84989ED8240598D6004C815B /* LogInVC.swift */,
+				84EFFB40243124BE00B4709F /* RegisterVC.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		84CE99A9243A55E200E3D6E8 /* GuessBased */ = {
+			isa = PBXGroup;
+			children = (
+				84CE99A5243A4CB400E3D6E8 /* PreStartVC.swift */,
+				84221F9B236B89D000C06A6E /* QuizModeVC.swift */,
+				84CE99902437DC3300E3D6E8 /* SummaryVC.swift */,
+			);
+			path = GuessBased;
+			sourceTree = "<group>";
+		};
+		84CE99AA243A55F700E3D6E8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				84CC4EFA240A9EC900A3CD49 /* ProfileDetailsViewController.swift */,
+				84CE99A3243A27FA00E3D6E8 /* SettingsVC.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		864508F4F7F5A1613B502A87 /* Frameworks */ = {
@@ -324,23 +362,25 @@
 				84989EDB2405A458004C815B /* NetworkService.swift in Sources */,
 				84221F89236B88BE00C06A6E /* MenuViewController.swift in Sources */,
 				84CBB9FD23F3055A00BC4CB2 /* Extensions.swift in Sources */,
-				84221FA0236B8BBC00C06A6E /* RulerModeLineGenerator.swift in Sources */,
+				84221FA0236B8BBC00C06A6E /* RulerModeLineGeneratorLegacy.swift in Sources */,
 				84CE998F2437B39E00E3D6E8 /* CoreDataManager.swift in Sources */,
 				84C8542024030C2F00FCD09A /* InitialLoadViewController.swift in Sources */,
 				84CE999D2438D16600E3D6E8 /* CountryModeGeneratorView.swift in Sources */,
 				84EFFB3F24310C4800B4709F /* SocketService.swift in Sources */,
 				84221F8F236B88BE00C06A6E /* Guess.xcdatamodeld in Sources */,
+				84CE99A6243A4CB400E3D6E8 /* PreStartVC.swift in Sources */,
 				84221F9C236B89D000C06A6E /* QuizModeVC.swift in Sources */,
 				84221F85236B88BE00C06A6E /* AppDelegate.swift in Sources */,
 				84EFFB41243124BE00B4709F /* RegisterVC.swift in Sources */,
 				84CE99972438A8A200E3D6E8 /* MenuCollectionVC.swift in Sources */,
+				84CE99AC243A5D9400E3D6E8 /* RuleModeGenerator.swift in Sources */,
 				84CE999524389AE600E3D6E8 /* RulerARVC.swift in Sources */,
 				84CE999B2438C56300E3D6E8 /* Topic.swift in Sources */,
 				84989ED724041AB4004C815B /* ModeTableViewCell.swift in Sources */,
-				84931C84240ACDD20059C571 /* Ruler.swift in Sources */,
 				84CC4EFB240A9EC900A3CD49 /* ProfileDetailsViewController.swift in Sources */,
 				84CC4EF9240A988600A3CD49 /* Quiz.swift in Sources */,
 				84CC4EF7240A97D900A3CD49 /* QuizSession.swift in Sources */,
+				84CE99A4243A27FA00E3D6E8 /* SettingsVC.swift in Sources */,
 				84989ED9240598D6004C815B /* LogInVC.swift in Sources */,
 				84CE99912437DC3300E3D6E8 /* SummaryVC.swift in Sources */,
 			);
@@ -489,7 +529,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.4;
+				MARKETING_VERSION = 0.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.dubrovski.guess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
@@ -514,7 +554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.4;
+				MARKETING_VERSION = 0.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.dubrovski.guess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;

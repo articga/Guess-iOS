@@ -36,6 +36,10 @@ class QuizSession {
     
     //For new
     func fetchForCollectionView(type: FetchType) -> Array<Topic> {
+        //Create new quizzes here
+        let ruler = Quiz(mode: .ruler, title: "Ruler", description: "How many red lines can you fit into one black line?", questionAmount: 10, imageTitle: "ruler", boxColor: UIColor(red: 0.80, green: 0.72, blue: 0.68, alpha: 1.00))
+        let world = Quiz(mode: .country, title: "World", description: "Guess the land area of the country given", questionAmount: 10, imageTitle: "world", boxColor: UIColor(red: 1.00, green: 0.69, blue: 0.17, alpha: 1.00))
+        
         if (type == FetchType.offline) {
             let featuredTopic = Topic()
             featuredTopic.title = "Featured Modes"
@@ -43,15 +47,13 @@ class QuizSession {
             let all = Topic()
             all.title = "All"
 
-            all.quizzes = [Quiz(mode: .ruler, title: "Ruler", description: "", questionAmount: 10, imageTitle: "ruler", boxColor: UIColor(red: 0.80, green: 0.72, blue: 0.68, alpha: 1.00)), Quiz(mode: .country, title: "World", description: "", questionAmount: 10, imageTitle: "world", boxColor: UIColor(red: 1.00, green: 0.69, blue: 0.17, alpha: 1.00))]
-            featuredTopic.quizzes = [Quiz(mode: .ruler, title: "Ruler", description: "", questionAmount: 10, imageTitle: "ruler", boxColor: UIColor(red: 0.80, green: 0.72, blue: 0.68, alpha: 1.00))]
+            all.quizzes = [ruler, world]
+            featuredTopic.quizzes = [ruler]
             
             return [featuredTopic, all]
         } else {
             return []
         }
     }
-    
-    
     
 }

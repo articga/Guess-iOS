@@ -13,6 +13,14 @@ class MenuCollectionVC: UIViewController, UICollectionViewDataSource, UICollecti
     let collectionViewCellID = "mainCell"
     let modeCollectionView = UICollectionView(frame: CGRect.null, collectionViewLayout: UICollectionViewFlowLayout())
     var collectionViewData = [Topic]()
+    
+    let modeSegmentControl: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Play", "Statistics"])
+        segment.selectedSegmentIndex = 0
+        //segment.addTarget(self, action: #selector(changeMode(sender:)), for: .valueChanged)
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        return segment
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +29,7 @@ class MenuCollectionVC: UIViewController, UICollectionViewDataSource, UICollecti
         setUPCollectionView()
         modeCollectionView.register(CatCell.self, forCellWithReuseIdentifier: collectionViewCellID)
         
-        navigationItem.title = "Modes"
+        navigationItem.title = "Guess"
         navigationController?.navigationBar.prefersLargeTitles = true
         setProfileButton()
     }
@@ -79,13 +87,11 @@ class MenuCollectionVC: UIViewController, UICollectionViewDataSource, UICollecti
         return CGSize(width: view.frame.width, height: 160)
     }
     
-    func show(mode: QuizSession.QuizMode) {
-        print(mode)
-        let vc = QuizModeVC()
-        vc.mode = mode
-        vc.modalPresentationStyle = .fullScreen
+    func show(quiz: Quiz) {
+        let vc = PreStartVC()
+        vc.quiz = quiz
         DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -185,8 +191,8 @@ class CatCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let mode = categoryData?.quizzes![indexPath.row].mode {
-            menuCollectionVC?.show(mode: mode)
+        if let quiz = categoryData?.quizzes![indexPath.row] {
+            menuCollectionVC?.show(quiz: quiz)
         }
     }
     

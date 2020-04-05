@@ -10,7 +10,7 @@ import UIKit
 import Mapbox
 import Haptica
 
-protocol CountryModeGeneratorDataDelegate {
+protocol CountryModeDelegate {
     func selectedCountry(country: CountryModeGenerator.Country)
     func options(options: [Int])
     func scoreGenerated(newScoreAmount: Int)
@@ -25,7 +25,7 @@ class CountryModeGenerator: UIView {
     var countries = [Country]()
     var selectedCountry = Country()
     var options = [Int]()
-    var delegate: CountryModeGeneratorDataDelegate?
+    var delegate: CountryModeDelegate?
     var score = 0 {
         didSet {
             delegate?.scoreGenerated(newScoreAmount: score)
@@ -34,7 +34,8 @@ class CountryModeGenerator: UIView {
     var questionsAmount = 0
     var currentQuestionIndex = 1
     var countdownTimer: Timer!
-    var timePerQuestion = 10 {
+    var timePerQuestionConstant = 20
+    var timePerQuestion = 20 {
         didSet {
             delegate?.timeValueChanged(newValue: timePerQuestion)
         }
@@ -112,7 +113,7 @@ class CountryModeGenerator: UIView {
     /// - Parameter optionID: 0,1,2 chosen answer
     func chooseOption(optionID: Int) {
         delegate?.labelShouldBeRed(isTrue: false)
-        timePerQuestion = 10
+        timePerQuestion = timePerQuestionConstant
         if (optionID > 2) {
             print("option Index out of range")
         } else {

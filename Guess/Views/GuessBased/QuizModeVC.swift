@@ -14,13 +14,12 @@ import NVActivityIndicatorView
 import SkyFloatingLabelTextField
 import Haptica
 
-class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGeneratorDataDelegate {
+class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeDelegate, RulerModeDelegate {
         
     var context: NSManagedObjectContext!
-    
     //Mode, user selected
     var mode: QuizSession.QuizMode = .unspecified
-    var countdownTimer: Timer!
+    
     let timePerQuestion = 10
     var totalTime = 10 {
         didSet {
@@ -78,11 +77,30 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGene
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //openDatabse()
+        
+        if (mode == .ruler) {
+            answerTextField.becomeFirstResponder()
+            drawUIElementsForRuler()
+        } else if (mode == .country) {
+            drawUIForCountry()
+        }
+    }
     
-    let lineUIView: RulerModeLineGenerator = {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.layer.insertSublayer(generateBGGradient(), at: 0)
+    }
+    
+    //MARK: - Ruler
+    lazy var lineUIView: RulerModeLineGenerator = {
         let view = RulerModeLineGenerator()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
+        view.delegate = self as RulerModeDelegate
         return view
     }()
     
@@ -109,56 +127,8 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGene
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //openDatabse()
-        
-        if (mode == .ruler) {
-            answerTextField.becomeFirstResponder()
-            drawUIElementsForRuler()
-        } else if (mode == .ruler_online) {
-            setUPMatchMaking()
-            //drawUIElementsForRulerOnline()
-        } else if (mode == .country) {
-            drawUIForCountry()
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        view.layer.insertSublayer(generateBGGradient(), at: 0)
-    }
-    
-    @objc func updateTimer() {
-        //Warning haptic
-        if totalTime == 3 {
-            Haptic.play("o-o-o-o-o-o-o-o-o-o-o-o-o-o-o", delay: 0.2)
-        }
-        
-        if totalTime <= 3 {
-            timerLabel.textColor = .red
-        }
-        
-        if totalTime != 0 {
-            totalTime -= 1
-        } else {
-            countdownTimer.invalidate()
-            quizOver()
-        }
-    }
-    
-    func setTimerForNext() {
-        totalTime = timePerQuestion
-    }
-
-    func timeFormatted(_ totalSeconds: Int) -> String {
-        let seconds: Int = totalSeconds % 60
-        let minutes: Int = (totalSeconds / 60) % 60
-        //     let hours: Int = totalSeconds / 3600
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-    
     func drawUIElementsForRuler() {
+        lineUIView.initateView(questionAmount: 10, timePerQuestion: 10)
         view.addSubview(lineUIView)
         view.addSubview(answerTextField)
         view.addSubview(submitButton)
@@ -167,8 +137,8 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGene
         scoreBoardStackView.addArrangedSubview(timerLabel)
         view.addSubview(scoreBoardStackView)
         
-        
-        submitButton.addTarget(self, action: #selector(submitPressed), for: .touchUpInside)
+
+        submitButton.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
         
         scoreBoardStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5.0).isActive = true
         scoreBoardStackView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
@@ -188,14 +158,22 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGene
         submitButton.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
         submitButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
         submitButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
-  
-        //Start the timer
-        countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
+    @objc func handleSubmit() {
+        if answerTextField.text != nil && answerTextField.text != "" {
+            if let answer = answerTextField.text {
+                lineUIView.submitAnswer(answer: answer)
+                answerTextField.text = ""
+                lineUIView.setNeedsDisplay()
+            }
+        }
+    }
+    
+    //MARK: - World
     lazy var mapController: CountryModeGenerator = {
         let mC = CountryModeGenerator()
-        mC.delegate = self as CountryModeGeneratorDataDelegate
+        mC.delegate = self as CountryModeDelegate
         mC.translatesAutoresizingMaskIntoConstraints = false
         return mC
     }()
@@ -290,8 +268,6 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGene
         answerButton3.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1.0/8.0).isActive = true
         answerButton3.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10.0).isActive = true
         answerButton3.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10.0).isActive = true
-        
-        
     }
     
     @objc func handleSendForWorld(sender: UIButton) {
@@ -335,37 +311,14 @@ class QuizModeVC: UIViewController, NVActivityIndicatorViewable, CountryModeGene
         present(vc, animated: true, completion: nil)
     }
     
-    //Not implemented yet
-    func setUPMatchMaking() {
-        let size = CGSize(width: 50, height: 50)
-        startAnimating(size, message: "Matchmaking", type: .ballScaleMultiple)
-        SocketService.default.makeUserAvailForMatchmaking(guessMode: 0, nickname: "Doktor")
-    }
+    //MARK: - Functions
     
-    @objc func submitPressed() {
-        //Calculate result
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-        //Error causing
-        score += lineUIView.getDisplayScore(guess: Double(answerTextField.text!) ?? 0.0)
-        //Clear textfield and render a new result
-        answerTextField.text = ""
-        lineUIView.setNeedsDisplay()
-        questionInHand += 1
-        if (questionInHand == 10) {
-            return quizOver()
-        }
-        setTimerForNext()
+    func timeFormatted(_ totalSeconds: Int) -> String {
+        let seconds: Int = totalSeconds % 60
+        let minutes: Int = (totalSeconds / 60) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
-    
-    func quizOver() {
-        countdownTimer.invalidate()
-        let vc = SummaryVC()
-        vc.score = score
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true, completion: nil)
-    }
-    
+        
     func openDatabse() {
         
     }

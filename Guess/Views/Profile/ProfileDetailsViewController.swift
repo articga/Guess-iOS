@@ -18,6 +18,7 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
     
     var pickedImage:UIImage?
     var service = NetworkService.sharedInstance
+    var user: NetworkService.User?
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -45,17 +46,17 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         super.viewWillAppear(animated)
         view.layer.insertSublayer(generateBGGradient(), at: 0)
         
-        let logOut = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: Selector(("logOut")))
-        logOut.isEnabled = false
-        navigationItem.rightBarButtonItem = logOut
+        let settings = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: Selector(("launchSettings")))
+        settings.isEnabled = false
+        navigationItem.rightBarButtonItem = settings
         
-        service.fetchLoggedInUser(onCompletion: { (user) in
-            if let username = user.username {
-                logOut.isEnabled = true
+        service.fetchLoggedInUser(onCompletion: { (userData) in
+            self.user = userData
+            if let username = self.user?.username {
                 self.usernameLabel.text = username
-                
+                settings.isEnabled = true
             }
-            if let profileImgURL = user.profileImageIdentifier {
+            if let profileImgURL = self.user?.profileImageIdentifier {
                 self.profileImageView.imageFromUrl(urlString: "\(CDN_URL)\(profileImgURL)")
             }
         }) { (errString) in
@@ -80,13 +81,10 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10.0).isActive = true
     }
     
-    @objc func logOut() {
-        DispatchQueue.global(qos: .background).async {
-            self.service.logOut()
-            DispatchQueue.main.async {
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
+    @objc func launchSettings() {
+        let vc = SettingsVC()
+        vc.userObj = user
+        present(vc, animated: true, completion: nil)
     }
     
     @objc func pickImage() {
