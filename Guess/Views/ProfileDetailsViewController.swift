@@ -50,8 +50,12 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         navigationItem.rightBarButtonItem = logOut
         
         service.fetchLoggedInUser(onCompletion: { (user) in
-            if let username = user.username, let profileImgURL = user.profileImageIdentifier {
+            if let username = user.username {
+                logOut.isEnabled = true
                 self.usernameLabel.text = username
+                
+            }
+            if let profileImgURL = user.profileImageIdentifier {
                 self.profileImageView.imageFromUrl(urlString: "\(CDN_URL)\(profileImgURL)")
             }
         }) { (errString) in
@@ -76,9 +80,13 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10.0).isActive = true
     }
     
-    
     @objc func logOut() {
-        
+        DispatchQueue.global(qos: .background).async {
+            self.service.logOut()
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @objc func pickImage() {

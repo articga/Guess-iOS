@@ -146,6 +146,13 @@ class NetworkService {
         }
     }
     
+    func logOut() {
+        let kC = Keychain(service: "eu.dubrovski.guess")
+        kC["refreshToken"] = nil
+        NetworkService.reqToken = ""
+        //TODO: Implement in server
+    }
+    
 //    func checkIfAuthenticated(token: String, completion: @escaping (Bool) -> ()) {
 //        AF.request("\(BASE_URL)/actions", method: .get, parameters: ["token": token], encoder: JSONParameterEncoder.default).validate().responseData { (response) in
 //            switch response.result {
@@ -295,9 +302,11 @@ class NetworkService {
     /// Show login screen
     /// - Parameter targetVC: ViewController for the view to be shown
     func showLogin(targetVC: UIViewController) {
-        let vc = InitialLoadViewController()
-        vc.modalPresentationStyle = .fullScreen
-        targetVC.present(vc, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let vc = InitialLoadViewController()
+            vc.modalPresentationStyle = .fullScreen
+            targetVC.present(vc, animated: true, completion: nil)
+        }
     }
 }
 
