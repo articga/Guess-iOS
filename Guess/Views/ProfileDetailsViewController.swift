@@ -10,10 +10,14 @@ import UIKit
 import NVActivityIndicatorView
 import KeychainAccess
 
-class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable {
-
-    var didRejectLogin = false
+class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable, NetworkServiceDelegate {
+    
+    func loginRequired() {
+        service.showLogin(targetVC: self)
+    }
+    
     var pickedImage:UIImage?
+    var service = NetworkService.sharedInstance
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,10 +33,9 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         return label
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        service.delegate = self
         navigationItem.title = "My Profile"
         
         drawUIElements()
@@ -46,34 +49,15 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
         logOut.isEnabled = false
         navigationItem.rightBarButtonItem = logOut
         
-        let service = NetworkService()
+        service.fetchLoggedInUser(onCompletion: { (user) in
+            if let username = user.username, let profileImgURL = user.profileImageIdentifier {
+                self.usernameLabel.text = username
+                self.profileImageView.imageFromUrl(urlString: "\(CDN_URL)\(profileImgURL)")
+            }
+        }) { (errString) in
+            print(errString)
+        }
         
-        if (!didRejectLogin) {
-            service.checkIfAuthenticated(token: TOKEN) { (isAuth) in
-                if (!isAuth) {
-                    print("Not authenticated")
-                    let vc = InitialLoadViewController()
-                    vc.modalPresentationStyle = .fullScreen
-                    self.present(vc, animated: true) {
-                        self.didRejectLogin = true
-                        self.stopAnimating()
-                    }
-                }
-            }
-        } else {
-            stopAnimating()
-        }
-        let size = CGSize(width: 50, height: 50)
-        //startAnimating(size, message: "Logging in", type: .ballScaleMultiple)
-        service.fetchLoggedInUser(token: TOKEN) { (user, didSuccess) in
-            if (didSuccess) {
-                self.stopAnimating()
-                logOut.isEnabled = true
-                self.usernameLabel.text = user.username
-                //Download profile img
-                self.profileImageView.imageFromUrl(urlString: "\(CDN_URL)\(user.profileImageIdentifier ?? "")")
-            }
-        }
     }
     
     func drawUIElements() {
@@ -94,14 +78,7 @@ class ProfileDetailsViewController: UIViewController, UIImagePickerControllerDel
     
     
     @objc func logOut() {
-        let service = NetworkService()
-        service.logOut { (didLogOut) in
-            if (didLogOut) {
-                self.dismiss(animated: true, completion: nil)
-            } else {
-                //Show err alert
-            }
-        }
+        
     }
     
     @objc func pickImage() {

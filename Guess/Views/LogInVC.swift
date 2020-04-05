@@ -161,21 +161,20 @@ class LogInVC: UIViewController, NVActivityIndicatorViewable {
             let size = CGSize(width: 50, height: 50)
             startAnimating(size, message: "Logging in", type: .ballScaleMultiple)
             
-            netService.authenticateUser(email: emailTextField.text!, password: passwordTextField.text!) { (isAuth) in
+            netService.authenticateUser(email: emailTextField.text!, password: passwordTextField.text!, onCompletion: {
                 self.stopAnimating()
-                if (isAuth) {
-                    //Dismiss all vc's in stack, go back to rootvc
-                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
-                    //Fallback
-                    self.dismiss(animated: true, completion: nil)
-                } else {
-                    //Display error
-                    let alert = UIAlertController(title: "Login Error", message: "Incorrect credentials", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-                    alert.addAction(action)
-                    self.present(alert, animated: true) {
-                        self.passwordTextField.text = ""
-                    }
+                //Dismiss all vc's in stack, go back to rootvc
+                self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                //Fallback
+                self.dismiss(animated: true, completion: nil)
+            }) { (errString) in
+                self.stopAnimating()
+                //Display error
+                let alert = UIAlertController(title: "Login Error", message: "Incorrect credentials", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                alert.addAction(action)
+                self.present(alert, animated: true) {
+                    self.passwordTextField.text = ""
                 }
             }
         } else {
